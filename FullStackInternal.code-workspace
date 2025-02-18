@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../es1"
+		},
+		{
+			"path": "../es2Cerchi"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "es2Cerchi"
+	}
+}

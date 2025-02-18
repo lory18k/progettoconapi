@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Categories Filter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .category-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .category-item {
+            width: 200px;
+            margin: 20px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .category-item img {
+            width: 100%;
+            height: auto;
+        }
+        .meal-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            justify-content: center;
+        }
+        .meal-item {
+            width: 200px;
+            margin: 10px;
+            text-align: center;
+        }
+        .meal-item img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Meal Categories</h1>
+
+    <!-- Contenitore delle categorie -->
+    <div class="category-container"></div>
+
+    <!-- Contenitore dei piatti -->
+    <div class="meal-container"></div>
+
+    <script>
+        // Funzione per caricare tutte le categorie
+        function loadCategories() {
+            let requestURL = "https://www.themealdb.com/api/json/v1/1/categories.php";
+            fetch(requestURL)
+                .then(response => response.json())
+                .then(json => {
+                    if (json.categories) {
+                        displayCategories(json.categories);
+                    } else {
+                        console.log("Nessuna categoria trovata.");
+                    }
+                })
+                .catch(err => console.error("Errore nel caricamento delle categorie:", err));
+        }
+
+        // Funzione per visualizzare le categorie
+        function displayCategories(categories) {
+            let cont = document.querySelector(".category-container");
+            cont.innerHTML = ""; // Pulisce il contenitore
+
+            categories.forEach(category => {
+                let categoryDiv = document.createElement("div");
+                categoryDiv.classList.add("category-item");
+
+                // Crea l'immagine della categoria
+                let img = document.createElement("img");
+                img.src = category.strCategoryThumb;
+                img.alt = category.strCategory;
+                categoryDiv.appendChild(img);
+
+                // Crea il nome della categoria
+                let p = document.createElement("p");
+                p.textContent = category.strCategory;
+                categoryDiv.appendChild(p);
+
+                // Aggiungi l'evento di click per caricare i piatti della categoria
+                categoryDiv.addEventListener("click", function() {
+                    loadMealsByCategory(category.strCategory);
+                });
+
+                cont.appendChild(categoryDiv);
+            });
+        }
+
+        // Funzione per caricare i piatti di una categoria
+        function loadMealsByCategory(category) {
+            let requestURL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
+            fetch(requestURL)
+                .then(response => response.json())
+                .then(json => {
+                    if (json.meals) {
+                        displayMeals(json.meals);
+                    } else {
+                        alert("Nessun piatto trovato per questa categoria.");
+                    }
+                })
+                .catch(err => console.error("Errore nel caricamento dei piatti:", err));
+        }
+
+        // Funzione per visualizzare i piatti
+        function displayMeals(meals) {
+            let cont = document.querySelector(".meal-container");
+            cont.innerHTML = ""; // Pulisce il contenitore dei piatti
+
+            meals.forEach(meal => {
+                let mealDiv = document.createElement("div");
+                mealDiv.classList.add("meal-item");
+
+                // Crea l'immagine del piatto
+                let img = document.createElement("img");
+                img.src = meal.strMealThumb;
+                img.alt = meal.strMeal;
+                mealDiv.appendChild(img);
+
+                // Crea il nome del piatto
+                let p = document.createElement("p");
+                p.textContent = meal.strMeal;
+                mealDiv.appendChild(p);
+
+                cont.appendChild(mealDiv);
+            });
+        }
+
+        // Carica tutte le categorie al caricamento della pagina
+        window.onload = loadCategories;
+    </script>
+
+</body>
+</html>

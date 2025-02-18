@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <script src="myscript.js"></script>
+
+    <nav>
+        <input type="text" id="ricerca" placeholder="Cerca una ricetta">
+        <button onclick="ricerca()">Cerca</button>
+    </nav>
+
+    <div class="container">
+        
+    </div>
+    <div class="meal-container"></div> <!-- O semplicemente .container -->
+
+    <div class="result-container"></div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+          <button class="close" onclick="chiudiModal()">&times;</button>
+          <h3 id="modalTitle"></h3>
+          <p id="modalInstructions"></p>
+        </div>
+    </div>
+
+    <button class="refresh" onclick="ricaricaCategorie()">Home;</button>
+    <button class="random" onclick="pastoCasuale()">Pasto Casuale</button>
+</body>
+</html>
